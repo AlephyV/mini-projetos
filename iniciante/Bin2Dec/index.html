@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Bin2Dec</title>
+    <meta charset="utf-8" />
+    <link href="index.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="interface">
+            <div id="titulo">
+                <h1>Bin2Dec</h1>
+            </div>
+            <br />
+            <div id="corpo">
+                <div>
+                    <label for="binario">Número em binário</label><br />
+                    <input type="text" id="binario" />
+                </div>
+                <br />
+                <div>
+                    <label for="resultado">Resultado</label><br />
+                    <input type="number" id="resultado" disabled />
+                </div>
+                <br />
+                <button class="button shadow" type="submit" onclick="submit()">Converter</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
