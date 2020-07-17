@@ -1,22 +1,48 @@
 let textarea_csv
+let textarea_json
 let json
-let textarea_json 
+let csv
+let primeira_iteracao = true
 
-//acionada quando o botão é clicado
-function botao_csv_para_json() {
-    //inicializando algumas variaveis
-    textarea_csv = document.getElementById('texto_csv')
-    textarea_json = document.getElementById("textarea_json")
+function botao_click(event) {
+    iniciar_variaveis()
 
-    if (validar()) {
-        converter()
-        mostrarResultado()
+    if(event == "tojson") {
+        if (validar_csv()) {
+            converter_csv_to_json()
+            mostrar_json_convertido()
+        } else {
+            return alert("Formato inválido!")
+        }
+    } else if(event == "tocsv") {
+        primeira_iteracao = true
+
+        if(validar_json()) {
+            converter_json_to_csv()
+            mostra_csv_convertido()
+        } else {
+            return alert("Fomarto inválido!")
+        }
     } else {
-        return alert("Formato inválido!")
+        return alert("Erro!")
     }
 }
 
-function validar() {
+function iniciar_variaveis() {
+    textarea_csv = document.getElementById('texto_csv')
+    textarea_json = document.getElementById("textarea_json")
+}
+
+function validar_json() {
+    try {
+        JSON.parse(textarea_json.value)
+    } catch(e) {
+        return false
+    }
+    return true
+}
+
+function validar_csv() {
     /* 
         Aqui verifico se é vazio, 
         se não contém virgula,
@@ -31,9 +57,56 @@ function validar() {
     }
 }
 
-function converter() {
+function converter_json_to_csv() {
+    let array_objetos = JSON.parse(textarea_json.value)
+    csv = ""
+
+    if(array_objetos.length == undefined) {
+        let objeto = array_objetos 
+        to_json(objeto)
+    } else {
+        for(let i in array_objetos) {
+            to_json(array_objetos[i])
+        }
+    }
+    
+}
+
+function to_json(objeto) {
+    let indices = []
+    csv = csv || ""
+
+    for(let indice in objeto) {
+        indices.push(indice)
+    }
+
+    //monta os indices somente se for 1 json
+    if(primeira_iteracao) {
+        for(let i = 0; i < indices.length; i++) {
+            if(i != indices.length - 1) {
+                csv += `${indices[i]},`
+            } else {
+                csv += `${indices[i]}\n`
+            }
+        }
+        
+    }
+    primeira_iteracao = false
+
+    //monta os valores
+    for(let indice in objeto) {
+        if(indice == indices[indices.length - 1]) { //verifica se é o ultimo indice
+            csv += `${objeto[indice]}\n`
+        } else {
+            csv += `${objeto[indice]},`
+        }
+        
+    }
+}
+
+function converter_csv_to_json() {
     json = "["
-    let array_linhas = textarea_csv.value.split('\n')
+    let array_linhas = textarea_csv.value.trim().split('\n')
     let array_valores = []
     let array_objetos = []
     let objeto = {}
@@ -45,7 +118,7 @@ function converter() {
     
     for(let i = 1; i < array_valores.length; i++) {
         for(let j = 0; j < array_valores[0].length; j++) {
-            objeto[array_valores[0][j].trim()] = array_valores[i][j].trim()
+            objeto[array_valores[0][j]] = array_valores[i][j].trim()
         }
         array_objetos.push(objeto)
         objeto = {}
@@ -61,7 +134,10 @@ function converter() {
     }
 }
 
-function mostrarResultado() {
+function mostra_csv_convertido() {
+    textarea_csv.value = csv
+}
+
+function mostrar_json_convertido() {
     textarea_json.value = json
-    
 }
