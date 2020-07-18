@@ -118,7 +118,7 @@ function converter_csv_to_json() {
     
     for(let i = 1; i < array_valores.length; i++) {
         for(let j = 0; j < array_valores[0].length; j++) {
-            objeto[array_valores[0][j]] = array_valores[i][j].trim()
+            objeto[array_valores[0][j]] = array_valores[i][j]
         }
         array_objetos.push(objeto)
         objeto = {}
