@@ -1,0 +1,6 @@
+﻿border_radius
+É um gerador simples de codigo css para a propiedade border_radius
+
+
+Projeto criado para aprendizado seguindo a proposto do repositório app-ideias. (https://github.com/florinpop17/app-ideas)
+Você pode acessá-lo através do github pages alephyv.github.io/mini-projetos/iniciante/border_radius
